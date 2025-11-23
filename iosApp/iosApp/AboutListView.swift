@@ -30,20 +30,21 @@ struct AboutListView: View {
 
     var body: some View {
         List {
-        ForEach(items,id \.self){item in
-        VStack(alignment: .leading){
-        Text(item.title)
-        .font(.footnote)
-        .foregroundStyle(.secondary)
-        Text(item.subtitle)
-        .font(.body)
-        .foregroundStyle(.secondary)
-        }
-        .padding(.vertical, 4)
-        }
-        }
+            ForEach(items, id: \.self) { item in
+                VStack(alignment: .leading) {
+                    Text(item.title)
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                    Text(item.subtitle)
+                        .font(.body)
+                        .foregroundStyle(.secondary)
+                }
+                .padding(.vertical, 4)
+            }
         }
     }
-    #Preview{
+}
+
+#Preview {
     AboutListView()
 }
