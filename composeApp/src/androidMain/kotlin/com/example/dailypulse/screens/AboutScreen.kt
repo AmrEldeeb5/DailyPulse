@@ -7,7 +7,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -22,9 +21,8 @@ import androidx.compose.ui.unit.dp
 import com.example.dailypulse.Platform
 
 @Composable
-fun AboutScreen(onUpButtonClick: () -> Unit
-) {
-    Column{
+fun AboutScreen(onUpButtonClick: () -> Unit) {
+    Column {
         ToolBar(onUpButtonClick)
         ContentView()
     }
@@ -34,11 +32,11 @@ fun AboutScreen(onUpButtonClick: () -> Unit
 @Composable
 fun ToolBar(onUpButtonClick: () -> Unit) {
     TopAppBar(
-        title = {Text("About")}
-        ,navigationIcon = {
+        title = { Text("About") },
+        navigationIcon = {
             IconButton(onClick = onUpButtonClick) {
                 Icon(
-                    imageVector = Icons.Filled.ArrowBack,
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = "Back"
                 )
             }
