@@ -1,6 +1,23 @@
 import SwiftUI
 import Shared
 
+@MainActor
+class ArticlesViewModelWrapper: ObservableObject {
+    let viewModel: ArticlesViewModel
+    @Published var state: ArticlesState
+    
+    init() {
+        self.viewModel = ArticlesViewModel()
+        self.state = self.viewModel.articlesState.value
+        
+        // Polling to update state since we don't have a Flow collector helper
+        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
+            guard let self = self else { return }
+            self.state = self.viewModel.articlesState.value
+        }
+    }
+}
+
 struct ArticlesScreen: View {
     // Inject the Wrapper, not the raw Kotlin VM
     @ObservedObject var viewModelWrapper: ArticlesViewModelWrapper

@@ -10,8 +10,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -28,11 +32,13 @@ import com.example.dailypulse.articles.ArticlesViewModel
 import com.example.dailypulse.articles.Article
 
 @Composable
-fun ArticlesScreen(articlesViewModel: ArticlesViewModel){
+fun ArticlesScreen(
+    onAboutClick: () -> Unit,
+    articlesViewModel: ArticlesViewModel){
     val articlesState = articlesViewModel.articlesState.collectAsState()
 
     Column {
-        AppBar()
+        AppBar(onAboutClick = onAboutClick)
         if (articlesState.value.isLoading){
             Loader()
         }
@@ -47,13 +53,22 @@ fun ArticlesScreen(articlesViewModel: ArticlesViewModel){
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppBar() {
+fun AppBar(onAboutClick: () -> Unit) {
     TopAppBar(
         title = { Text("Daily Pulse") },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primary,
             titleContentColor = Color.White
-        )
+        ),
+        actions = {
+            IconButton(onClick = onAboutClick){
+                Icon(
+                    imageVector = Icons.Filled.Info,
+                    contentDescription = "About",
+                    tint = Color.White
+                )
+            }
+        }
     )
 }
 
