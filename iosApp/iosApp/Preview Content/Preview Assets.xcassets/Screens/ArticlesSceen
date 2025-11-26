@@ -1,0 +1,125 @@
+import SwiftUI
+import Shared
+
+struct ArticlesScreen: View {
+    // Inject the Wrapper, not the raw Kotlin VM
+    @ObservedObject var viewModelWrapper: ArticlesViewModelWrapper
+
+    var body: some View {
+        VStack(spacing: 0) {
+            AppBar()
+            
+            // Access state via the wrapper
+            let state = viewModelWrapper.state
+            
+            if state.isLoading {
+                Loader()
+            }
+            
+            if let error = state.error {
+                ErrorMessage(message: error)
+            }
+            
+            if !state.articles.isEmpty {
+                ArticlesListView(articles: state.articles)
+            }
+        }
+    }
+}
+
+// MARK: - Components
+
+struct AppBar: View {
+    var body: some View {
+        HStack {
+            Text("Daily Pulse")
+                .font(.headline)
+                .foregroundColor(.white)
+            Spacer()
+        }
+        .padding()
+        .background(Color.blue) // Material Primary
+    }
+}
+
+struct Loader: View {
+    var body: some View {
+        VStack {
+            Spacer()
+            ProgressView()
+            Spacer()
+        }
+    }
+}
+
+struct ErrorMessage: View {
+    let message: String
+    var body: some View {
+        VStack {
+            Spacer()
+            Text(message)
+                .font(.title)
+                .foregroundColor(.red)
+            Spacer()
+        }
+    }
+}
+
+struct ArticlesListView: View {
+    // Note: 'Article' here refers to the KOTLIN class from Shared module
+    let articles: [Article]
+    
+    var body: some View {
+        ScrollView {
+            LazyVStack(spacing: 8) {
+                ForEach(articles, id: \.title) { article in
+                    ArticleItemView(article: article)
+                }
+            }
+        }
+    }
+}
+
+struct ArticleItemView: View {
+    let article: Article
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            // AsyncImage requires a URL, Kotlin usually provides String
+            if let urlString = article.imageUrl, let url = URL(string: urlString) {
+                AsyncImage(url: url) { image in
+                    image.resizable().aspectRatio(contentMode: .fill)
+                } placeholder: {
+                    Color.gray.opacity(0.3)
+                }
+                .frame(height: 200)
+                .clipped()
+            } else {
+                Color.gray.frame(height: 200)
+            }
+            
+            Spacer().frame(height: 4)
+            
+            Text(article.title)
+                .font(.title3)
+                .fontWeight(.bold)
+            
+            Spacer().frame(height: 8)
+            
+            Text(article.desc)
+                .font(.body)
+            
+            Spacer().frame(height: 4)
+            
+            HStack {
+                Spacer()
+                Text(article.date)
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+            }
+            
+            Spacer().frame(height: 4)
+        }
+        .padding(16)
+    }
+}
