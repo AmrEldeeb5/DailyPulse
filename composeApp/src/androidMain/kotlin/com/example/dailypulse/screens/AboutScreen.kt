@@ -1,4 +1,4 @@
-package com.example.dailypulse
+package com.example.dailypulse.screens
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.example.dailypulse.Platform
 
 @Composable
 fun AboutScreen(
