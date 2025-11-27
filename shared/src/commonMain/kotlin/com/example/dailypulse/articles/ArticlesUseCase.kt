@@ -12,7 +12,7 @@ class ArticlesUseCase(private val articlesService: ArticlesService) {
             title = it.title,
             desc = it.description ?: "Click to read more",
             date = it.date,
-            imageUrl = it.urlToImage ?: ""
+            imageUrl = it.urlToImage ?: "https://gizmodo.com/app/uploads/2025/11/GotMilkPluribus-1-1200x675.jpg"
         )
     }
 }
