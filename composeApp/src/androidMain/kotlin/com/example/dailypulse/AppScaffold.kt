@@ -12,21 +12,19 @@ import com.example.dailypulse.screens.AboutScreen
 import com.example.dailypulse.screens.ArticlesScreen
 
 @Composable
-fun AppScaffold(articlesViewModel: ArticlesViewModel){
+fun AppScaffold(){
     val navController = rememberNavController()
 
     AppNavHost(
         navController = navController,
         modifier = Modifier.fillMaxSize(),
-        articlesViewModel
     )
 }
 
 @Composable
 fun AppNavHost(
     navController: NavHostController,
-    modifier: Modifier,
-    articlesViewModel: ArticlesViewModel)
+    modifier: Modifier, )
 {
     NavHost(
         navController = navController,
@@ -35,9 +33,7 @@ fun AppNavHost(
     ) {
         composable(Screen.ARTICLES.route) {
             ArticlesScreen(
-                onAboutClick = { navController.navigate(Screen.ABOUT_DEVICE.route) },
-                articlesViewModel = articlesViewModel
-            )
+                onAboutClick = { navController.navigate(Screen.ABOUT_DEVICE.route) },)
         }
         composable(Screen.ABOUT_DEVICE.route) {
             AboutScreen(onUpButtonClick = { navController.popBackStack() })

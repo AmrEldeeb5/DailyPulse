@@ -1,22 +1,24 @@
 package com.example.dailypulse
 
 import android.app.Application
-import coil3.ImageLoader
-import coil3.PlatformContext
-import coil3.SingletonImageLoader
-import coil3.network.ktor3.KtorNetworkFetcherFactory
-import coil3.request.crossfade
-import coil3.util.DebugLogger
+import com.example.dailypulse.di.sharedKoinModules
+import com.example.dailypulse.di.viewModelsModule
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.GlobalContext.startKoin
 
-class DailyPulseApplication : Application(), SingletonImageLoader.Factory {
-    override fun newImageLoader(context: PlatformContext): ImageLoader {
-        return ImageLoader.Builder(context)
-            .components {
-                add(KtorNetworkFetcherFactory())
-            }
-            .crossfade(true)
-            .logger(DebugLogger())
-            .build()
+class DailyPulseApplication : Application() {
+    override fun onCreate() {
+        super.onCreate()
+        initKoin()
+    }
+
+    private fun initKoin() {
+        val modules = sharedKoinModules + viewModelsModule
+
+        startKoin {
+            androidContext(this@DailyPulseApplication)
+            modules(modules)
+        }
     }
 }
 
