@@ -21,10 +21,11 @@ class ArticlesViewModelWrapper: ObservableObject {
 struct ArticlesScreen: View {
     // Inject the Wrapper, not the raw Kotlin VM
     @ObservedObject var viewModelWrapper: ArticlesViewModelWrapper
+    var onAboutClick: () -> Void
 
     var body: some View {
         VStack(spacing: 0) {
-            AppBar()
+            AppBar(onAboutClick: onAboutClick)
             
             // Access state via the wrapper
             let state = viewModelWrapper.state
@@ -47,12 +48,18 @@ struct ArticlesScreen: View {
 // MARK: - Components
 
 struct AppBar: View {
+    var onAboutClick: () -> Void
+    
     var body: some View {
         HStack {
             Text("Daily Pulse")
                 .font(.headline)
                 .foregroundColor(.white)
             Spacer()
+            Button(action: onAboutClick) {
+                Image(systemName: "info.circle")
+                    .foregroundColor(.white)
+            }
         }
         .padding()
         .background(Color.blue) // Material Primary

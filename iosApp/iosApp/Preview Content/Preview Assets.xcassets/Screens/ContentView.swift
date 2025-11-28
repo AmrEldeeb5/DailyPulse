@@ -1,25 +1,26 @@
 import SwiftUI
 import Shared
 
+enum AppScreen {
+    case articles
+    case about
+}
+
 struct ContentView: View {
-    @State private var shouldOpenAbout = false
+    @State private var currentScreen: AppScreen = .articles
+    @StateObject private var viewModelWrapper = ArticlesViewModelWrapper()
     
     var body: some View {
-        NavigationStack {
-            ArticlesScreen(viewModelWrapper: ArticlesViewModelWrapper())
-                .toolbar {
-                    ToolbarItem(placement: .primaryAction) {
-                        Button {
-                            shouldOpenAbout = true
-                        } label: {
-                            Label("About", systemImage: "info.circle")
-                                .labelStyle(.titleAndIcon)
-                        }
-                        .popover(isPresented: $shouldOpenAbout) {
-                            AboutListView()
-                        }
-                    }
-                }
+        switch currentScreen {
+        case .articles:
+            ArticlesScreen(
+                viewModelWrapper: viewModelWrapper,
+                onAboutClick: { currentScreen = .about }
+            )
+        case .about:
+            AboutScreen(
+                onUpButtonClick: { currentScreen = .articles }
+            )
         }
     }
 }

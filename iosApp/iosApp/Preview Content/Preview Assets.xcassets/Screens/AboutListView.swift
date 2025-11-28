@@ -1,7 +1,35 @@
-import shared
 import SwiftUI
+import Shared
 
-struct AboutListView: View {
+struct AboutScreen: View {
+    var onUpButtonClick: () -> Void
+    
+    var body: some View {
+        VStack(spacing: 0) {
+            AboutToolBar(onUpButtonClick: onUpButtonClick)
+            AboutContentView()
+        }
+    }
+}
+
+struct AboutToolBar: View {
+    var onUpButtonClick: () -> Void
+    
+    var body: some View {
+        HStack {
+            Button(action: onUpButtonClick) {
+                Image(systemName: "arrow.left")
+                    .foregroundColor(.primary)
+            }
+            Text("About")
+                .font(.headline)
+            Spacer()
+        }
+        .padding()
+    }
+}
+
+struct AboutContentView: View {
     private struct RowItem: Hashable {
         let title: String
         let subtitle: String
@@ -33,18 +61,19 @@ struct AboutListView: View {
             ForEach(items, id: \.self) { item in
                 VStack(alignment: .leading) {
                     Text(item.title)
-                        .font(.footnote)
+                        .font(.caption)
                         .foregroundStyle(.secondary)
                     Text(item.subtitle)
                         .font(.body)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(.primary)
                 }
                 .padding(.vertical, 4)
             }
         }
+        .listStyle(.plain)
     }
 }
 
 #Preview {
-    AboutListView()
+    AboutScreen(onUpButtonClick: {})
 }
