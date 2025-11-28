@@ -1,4 +1,8 @@
 package com.example.dailypulse.db
 
-class DatabaseDriverFactory {
+import app.cash.sqldelight.db.SqlDriver
+
+expect class DatabaseDriverFactory {
+
+    fun createDriver(): SqlDriver
 }
