@@ -1,5 +1,6 @@
 package com.example.dailypulse.articles
 
+import com.example.dailypulse.articles.repository.ArticlesRepository
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
@@ -7,11 +8,11 @@ import kotlinx.datetime.daysUntil
 import kotlinx.datetime.toLocalDateTime
 import kotlin.math.abs
 
-class ArticlesUseCase(private val articlesService: ArticlesService) {
+class ArticlesUseCase(private val repository: ArticlesRepository) {
 
     suspend fun fetchArticles(): List<Article> {
-        val articlesRaw = articlesService.fetchArticles()
-        return mapArticles(articlesRaw.articles)
+        val articlesRaw = repository.getArticles()
+        return mapArticles(articlesRaw)
     }
 
     private fun mapArticles(articlesRaw: List<ArticleRaw>): List<Article> = articlesRaw.map {
