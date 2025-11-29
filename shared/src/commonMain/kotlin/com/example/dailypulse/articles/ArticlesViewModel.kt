@@ -21,11 +21,11 @@ class ArticlesViewModel(
         getArticles()
     }
 
-    private fun getArticles(){
+    fun getArticles(forceRefresh: Boolean = false){
         scope.launch{
             try {
                 _articlesState.emit(ArticlesState(isLoading = true))
-                val fetchedArticles = useCase.fetchArticles()
+                val fetchedArticles = useCase.fetchArticles(forceRefresh)
                 _articlesState.emit(ArticlesState(articles = fetchedArticles))
             } catch (e: Exception) {
                 _articlesState.emit(ArticlesState(error = e.message ?: "Unknown error occurred"))

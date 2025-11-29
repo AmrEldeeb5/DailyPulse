@@ -8,7 +8,14 @@ class ArticlesRepository(
     private val dataSource: ArticlesDataSource,
     private val service: ArticlesService
 ) {
-    suspend fun getArticles(): List<ArticleRaw> {
+    suspend fun getArticles(forceRefresh: Boolean): List<ArticleRaw> {
+        if (forceRefresh) {
+            dataSource.clearArticles()
+            val fetchedArticles = service.fetchArticles()
+            dataSource.insertArticles(fetchedArticles.articles)
+            return fetchedArticles.articles
+        }
+
         val articlesDb = dataSource.getAllArticles()
         println("Got ${articlesDb.size} articles from the db!!}")
 

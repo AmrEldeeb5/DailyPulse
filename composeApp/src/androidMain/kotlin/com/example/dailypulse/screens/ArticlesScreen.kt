@@ -20,6 +20,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -32,6 +33,7 @@ import com.example.dailypulse.articles.ArticlesViewModel
 import com.example.dailypulse.articles.Article
 import org.koin.compose.viewmodel.koinViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ArticlesScreen(
     onAboutClick: () -> Unit,
@@ -41,14 +43,25 @@ fun ArticlesScreen(
 
     Column {
         AppBar(onAboutClick = onAboutClick)
-        if (articlesState.value.isLoading){
-            Loader()
-        }
-        if (articlesState.value.error != null) {
-            ErrorMessage(articlesState.value.error!!)
-        }
-        if (articlesState.value.articles.isNotEmpty()) {
-            ArticlesListView(articlesState.value.articles)
+
+        PullToRefreshBox(
+            isRefreshing = articlesState.value.isLoading && articlesState.value.articles.isNotEmpty(),
+            onRefresh = {
+                articlesViewModel.getArticles(forceRefresh = true)
+            },
+            modifier = Modifier.fillMaxSize()
+        ) {
+            when {
+                articlesState.value.isLoading && articlesState.value.articles.isEmpty() -> {
+                    Loader()
+                }
+                articlesState.value.error != null -> {
+                    ErrorMessage(articlesState.value.error!!)
+                }
+                articlesState.value.articles.isNotEmpty() -> {
+                    ArticlesListView(articlesState.value.articles)
+                }
+            }
         }
     }
 }
@@ -117,14 +130,21 @@ fun ArticleItemView(article: Article) {
             .fillMaxWidth()
             .padding(16.dp)
     ) {
-        AsyncImage(
-            model = article.imageUrl,
-            contentDescription = null,
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(200.dp),
-            contentScale = ContentScale.Crop
-        )
+            contentAlignment = Alignment.Center
+        ) {
+            AsyncImage(
+                model = article.imageUrl,
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Crop,
+                placeholder = null,
+                error = null
+            )
+        }
         Spacer(modifier = Modifier.height(4.dp))
         Text(
             text = article.title,
