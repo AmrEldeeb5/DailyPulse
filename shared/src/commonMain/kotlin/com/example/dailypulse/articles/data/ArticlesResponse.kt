@@ -1,5 +1,6 @@
-package com.example.dailypulse.articles
+package com.example.dailypulse.articles.data
 
+import com.example.dailypulse.articles.data.ArticleRaw
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

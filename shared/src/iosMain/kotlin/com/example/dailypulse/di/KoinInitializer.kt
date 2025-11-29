@@ -1,7 +1,7 @@
 package com.example.dailypulse.di
 
 import app.cash.sqldelight.db.SqlDriver
-import com.example.dailypulse.articles.ArticlesViewModel
+import com.example.dailypulse.articles.presention.ArticlesViewModel
 import com.example.dailypulse.db.DailyPulseDatabase
 import com.example.dailypulse.db.DatabaseDriverFactory
 import org.koin.core.component.KoinComponent

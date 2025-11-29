@@ -29,8 +29,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import com.example.dailypulse.articles.ArticlesViewModel
-import com.example.dailypulse.articles.Article
+import com.example.dailypulse.articles.presention.ArticlesViewModel
+import com.example.dailypulse.articles.application.Article
 import org.koin.compose.viewmodel.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)

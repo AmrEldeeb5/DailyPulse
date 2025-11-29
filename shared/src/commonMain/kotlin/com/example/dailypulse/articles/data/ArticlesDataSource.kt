@@ -1,5 +1,6 @@
-package com.example.dailypulse.articles
+package com.example.dailypulse.articles.data
 
+import com.example.dailypulse.articles.data.ArticleRaw
 import com.example.dailypulse.db.DailyPulseDatabase
 
 class ArticlesDataSource(private val database: DailyPulseDatabase) {

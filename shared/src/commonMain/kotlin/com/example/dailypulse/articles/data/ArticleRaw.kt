@@ -1,8 +1,7 @@
-package com.example.dailypulse.articles
+package com.example.dailypulse.articles.data
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-
 
 @Serializable
 data class ArticleRaw(

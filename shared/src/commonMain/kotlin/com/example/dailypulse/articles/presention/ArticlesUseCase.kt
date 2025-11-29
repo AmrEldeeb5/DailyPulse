@@ -1,6 +1,8 @@
-package com.example.dailypulse.articles
+package com.example.dailypulse.articles.presention
 
-import com.example.dailypulse.articles.repository.ArticlesRepository
+import com.example.dailypulse.articles.application.Article
+import com.example.dailypulse.articles.data.ArticleRaw
+import com.example.dailypulse.articles.data.repository.ArticlesRepository
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
@@ -20,13 +22,14 @@ class ArticlesUseCase(private val repository: ArticlesRepository) {
             title = it.title,
             desc = it.description ?: "Click to read more",
             date = getDayAgoString(it.date),
-            imageUrl = it.urlToImage ?: "https://gizmodo.com/app/uploads/2025/11/GotMilkPluribus-1-1200x675.jpg"
+            imageUrl = it.urlToImage
+                ?: "https://gizmodo.com/app/uploads/2025/11/GotMilkPluribus-1-1200x675.jpg"
         )
     }
 
     private fun getDayAgoString(date: String): String {
-        val today = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
-        val articleDate = Instant.parse(date).toLocalDateTime(TimeZone.currentSystemDefault()).date
+        val today = Clock.System.now().toLocalDateTime(TimeZone.Companion.currentSystemDefault()).date
+        val articleDate = Instant.Companion.parse(date).toLocalDateTime(TimeZone.Companion.currentSystemDefault()).date
         val days = abs(today.daysUntil(articleDate))
 
         val result = when {
